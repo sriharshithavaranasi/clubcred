@@ -1,20 +1,34 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
+import {
+  useFonts as useInterFonts,
+  Inter_400Regular,
+} from '@expo-google-fonts/inter';
+import {
+  useFonts as usePlayfairFonts,
+  PlayfairDisplay_700Bold,
+} from '@expo-google-fonts/playfair-display';
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+
+  const [interLoaded] = useInterFonts({
+    Inter_400Regular,
   });
 
-  if (!loaded) {
-    // Async font loading only occurs in development.
-    return null;
+  const [playfairLoaded] = usePlayfairFonts({
+    PlayfairDisplay_700Bold,
+  });
+
+  const fontsLoaded = interLoaded && playfairLoaded;
+
+  if (!fontsLoaded) {
+    return null; // Fonts still loading
   }
 
   return (
